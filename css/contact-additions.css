@@ -1,0 +1,107 @@
+/* ==========================================================================
+   CONTACT PAGE: astronaut frame + video background
+   (new block, added to the end of css/styles.css)
+   ========================================================================== */
+
+/* Section that holds the form. Rendered on a clean white background. */
+.contact-stage {
+  overflow: hidden;
+  isolation: isolate;
+  background: #FFFFFF !important;
+  background-image: none !important;
+}
+.contact-stage .contact-grid { position: relative; z-index: 1; align-items: center; }
+
+/* Background video for the contact section (if you re-enable it in the HTML).
+   Currently inert unless the .contact-bg div exists in the markup. */
+.contact-bg { position: absolute; inset: 0; z-index: 0; }
+.contact-bg video { width: 100%; height: 100%; object-fit: cover; }
+.contact-bg::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(18,14,46,.62) 0%, rgba(18,14,46,.5) 50%, rgba(18,14,46,.68) 100%);
+}
+@media (prefers-reduced-motion: reduce) { .contact-bg video { display: none; } }
+
+/* Video inside the top "Get in touch" hero (page-hero), if you use it there.
+   Works whether or not the section also has .space-bg. */
+.page-hero--video { position: relative; overflow: hidden; }
+.page-hero--video .video-slot { position: absolute; inset: 0; z-index: 0; }
+.page-hero--video video {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover;
+  filter: blur(6px) brightness(.7);
+  transform: scale(1.08);
+}
+.page-hero--video .hero-overlay { position: absolute; inset: 0; z-index: 1; }
+.page-hero--video .container { position: relative; z-index: 2; }
+
+/* Left column text — dark on white */
+.contact-stage .contact-item strong { color: var(--ink-900); }
+.contact-stage .contact-item { color: var(--ink-600); }
+.contact-stage .contact-item a { color: var(--indigo-dark); }
+.contact-stage .social { background: var(--indigo-tint); color: var(--indigo-dark); }
+.contact-stage .social:hover { background: var(--indigo-dark); color: #fff; }
+
+/* The frame. The PNG has a transparent centre. Rounded corners here. */
+.frame-card {
+  container-type: inline-size;
+  width: 100%; max-width: 680px; margin-inline: auto;
+  aspect-ratio: 1200 / 1694;
+  background: url("../astronaut-frame.png") center / 100% 100% no-repeat;
+  filter: drop-shadow(0 24px 48px rgba(0, 0, 0, .35));
+  border-radius: 28px;
+  overflow: hidden;
+}
+
+/* Safe area inside the wavy border (clear of the astronaut and the rocket).
+   cqw = 1% of the frame's width, so it scales with the frame.
+   Left/right padding raised to 18cqw so the fields sit further right. */
+.frame-content {
+  height: 100%;
+  padding: 21cqw 18cqw 59cqw 18cqw;
+  display: flex; flex-direction: column; justify-content: center;
+  gap: clamp(10px, 2.4cqw, 18px);
+}
+.frame-content form > .stack { gap: clamp(10px, 2.4cqw, 18px); }
+.frame-content .field-grid { grid-template-columns: 1fr; gap: clamp(10px, 2.4cqw, 18px); }
+.frame-content .field { gap: 6px; }
+
+/* Fields — white surface, dark text, normal border */
+.frame-content .field label { color: var(--ink-900); }
+.frame-content .field input[type="text"],
+.frame-content .field input[type="email"] { height: clamp(40px, 7cqw, 52px); }
+.frame-content .field textarea { min-height: 88px; }
+.frame-content .field input,
+.frame-content .field textarea {
+  background: #FFFFFF;
+  border: 1.5px solid var(--ink-300);
+  color: var(--ink-900);
+}
+.frame-content .field input::placeholder,
+.frame-content .field textarea::placeholder { color: var(--ink-600); opacity: .7; }
+.frame-content .field input:focus,
+.frame-content .field textarea:focus {
+  border-color: var(--indigo-dark);
+  box-shadow: 0 0 0 4px rgba(59,75,219,.15);
+}
+.frame-content .field.has-error input,
+.frame-content .field.has-error textarea { border-color: var(--error); }
+.frame-content .field .err { color: var(--error); }
+.frame-content .btn { height: clamp(42px, 6.6cqw, 48px); }
+
+/* Success message inside the frame */
+.frame-content .form-success { padding: 0; gap: 10px; }
+.frame-content .form-success h3 { color: var(--ink-900); font-size: clamp(26px, 6cqw, 36px); line-height: 1.15; }
+.frame-content .form-success p { color: var(--ink-600); }
+.frame-content .success-mark { width: 56px; height: 56px; background: rgba(31,157,107,.12); color: var(--success); }
+
+/* Map: PNG fills the slot and opens full-size in a new tab */
+.map-slot .map-link { position: absolute; inset: 0; display: block; z-index: 1; }
+.map-slot .map-link img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Phones: let the frame grow with the form */
+@media (max-width: 640px) {
+  .frame-card { aspect-ratio: auto; min-height: 720px; container-type: normal; border-radius: 20px; }
+  .frame-content { padding: 104px 52px 250px 56px; }   /* fields nudged right on phones too */
+  .frame-content .field textarea { min-height: 72px; }
+}
